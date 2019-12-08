@@ -1,0 +1,325 @@
+{
+	"info": {
+		"_postman_id": "b4181ed9-bbe7-4bcf-bc59-30719577ace7",
+		"name": "whoiswho",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"acb@gmail.com\", \"password\": \"12345\", \"username\": \"eu3\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/player/register/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"player",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"eu3\", \"password\": \"12345\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/player/login/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"player",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Lobby",
+			"item": [
+				{
+					"name": "Lobby",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/match/match/5/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"match",
+								"match",
+								"5",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Match Actions",
+			"item": [
+				{
+					"name": "Join Match",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/match/match/join/4/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"match",
+								"match",
+								"join",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Play Match",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"picks\": [1,2]}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/match/match/play/4/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"match",
+								"match",
+								"play",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Leave Match",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/match/match/join/4/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"match",
+								"match",
+								"join",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Match CRUD",
+			"item": [
+				{
+					"name": "Match",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/match/match/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"match",
+								"match",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Match",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/game/match/1/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"game",
+								"match",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Match",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/match/match/5/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"match",
+								"match",
+								"5",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6068c973-6b9f-414e-88fa-b111950817a5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8808708c-663d-4aa6-b1fb-3179ff08f50c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNTgxMDI4MDY1fQ.ND00aAqJbWQo_ajENYXiut_u93fCXeUez6C3f7lCg60",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e2c2aefa-6a57-4986-8d23-3f2225331070",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8b3762c9-3b8d-4aa8-b8db-d920828d80b5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

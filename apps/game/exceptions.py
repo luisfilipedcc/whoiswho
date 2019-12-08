@@ -1,0 +1,2 @@
+class GameNotEnoughCharacters(Exception):
+    pass
