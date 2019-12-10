@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b4181ed9-bbe7-4bcf-bc59-30719577ace7",
+		"_postman_id": "79b1088b-4b27-46ce-9f48-0d4e548ada88",
 		"name": "whoiswho",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"email\": \"acb@gmail.com\", \"password\": \"12345\", \"username\": \"eu3\"}",
+							"raw": "{\"email\": \"abc@gmail.com\", \"password\": \"12345\", \"username\": \"eu3\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -30,9 +30,12 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8000/player/register/",
+							"raw": "192.168.99.100:8000/player/register/",
 							"host": [
-								"localhost"
+								"192",
+								"168",
+								"99",
+								"100"
 							],
 							"port": "8000",
 							"path": [
@@ -66,11 +69,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8000/player/login/",
+							"raw": "{{host}}/player/login/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"player",
 								"login",
@@ -92,15 +94,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/match/match/5/",
+							"raw": "{{host}}/lobby/lobby/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
-								"match",
-								"match",
-								"5",
+								"lobby",
+								"lobby",
 								""
 							]
 						}
@@ -119,16 +119,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/match/match/join/4/",
+							"raw": "{{host}}/match/match/join/2/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"match",
 								"match",
 								"join",
-								"4",
+								"2",
 								""
 							]
 						}
@@ -157,16 +156,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8000/match/match/play/4/",
+							"raw": "{{host}}/match/match/play/2/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"match",
 								"match",
 								"play",
-								"4",
+								"2",
 								""
 							]
 						}
@@ -179,16 +177,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/match/match/join/4/",
+							"raw": "{{host}}/match/match/leave/1/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"match",
 								"match",
-								"join",
-								"4",
+								"leave",
+								"1",
 								""
 							]
 						}
@@ -207,11 +204,10 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/match/match/",
+							"raw": "{{host}}/match/match/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"match",
 								"match",
@@ -227,13 +223,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/game/match/1/",
+							"raw": "{{host}}/match/match/1/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
-								"game",
+								"match",
 								"match",
 								"1",
 								""
@@ -248,15 +243,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/match/match/5/",
+							"raw": "{{host}}/match/match/2/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"match",
 								"match",
-								"5",
+								"2",
 								""
 							]
 						}
@@ -294,7 +288,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNTgxMDI4MDY1fQ.ND00aAqJbWQo_ajENYXiut_u93fCXeUez6C3f7lCg60",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNTgxMjA0MDg4fQ.b-TEjZgfnu7jSg7bIojRGdFUq4C8p3FFQ-KSGc0mJaQ",
 				"type": "string"
 			}
 		]
@@ -319,6 +313,14 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"id": "9aa75e58-438a-40ec-a466-91fe0f7db4ae",
+			"key": "host",
+			"value": " 192.168.99.100:8000",
+			"type": "string"
 		}
 	],
 	"protocolProfileBehavior": {}
