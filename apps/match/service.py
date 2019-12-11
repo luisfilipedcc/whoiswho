@@ -42,6 +42,8 @@ class MatchService:
                 self._set_player_win(winner=player1, loser=player2)
             if is_player2 and self.match.game_state.side2_won:
                 self._set_player_win(winner=player2, loser=player1)
+            self.match.ended = True
+            self.match.save()
 
     @staticmethod
     def _set_player_win(winner, loser):

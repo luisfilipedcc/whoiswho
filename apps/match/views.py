@@ -14,6 +14,22 @@ from django.http.response import JsonResponse
 from apps.match.service import MatchService
 
 
+class MatchStatus(View):
+
+    @logged_in
+    @active_turn
+    def get(self, request, match_id):
+        match_service = MatchService(request.match)
+        game_state = match_service.match.game_state
+        your_turn = not(request.is_player1 and game_state.side1_turn or request.is_player2 and game_state.side2_turn)
+        opponent_pieces = game_state.missing_side2_pieces if request.is_player1 else game_state.missing_side1_pieces
+        return JsonResponse({"ready": match_service.match.started,
+                             "ended": match_service.match.ended,
+                             "lost": game_state.side2_won if request.is_player1 else game_state.side1_won,
+                             "your_turn": your_turn,
+                             "opponent_pieces": opponent_pieces})
+
+
 class MatchPlay(View):
 
     @logged_in
@@ -33,8 +49,8 @@ class MatchPlay(View):
             return JsonResponse({"error": 4, "message": "It's not this player's turn."})
         except InvalidPickSelection:
             return JsonResponse({"error": 5, "message": "A character picked was already selected."})
-        return JsonResponse({"player1_won": match_service.match.game_state.side1_won,
-                             "player2_won": match_service.match.game_state.side2_won})
+        game_state = match_service.match.game_state
+        return JsonResponse({"won": game_state.side1_won if request.is_player2 else game_state.side2_won})
 
 
 class MatchJoin(View):

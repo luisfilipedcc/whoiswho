@@ -44,12 +44,20 @@ class GameState(models.Model):
         return self.side1_won or self.side2_won
 
     @property
+    def missing_side1_pieces(self):
+        return sum([int(x) for x in self.side1_mask.split(',')])
+
+    @property
     def side1_won(self):
-        return sum([int(x) for x in self.side1_mask.split(',')]) == 1
+        return self.missing_side1_pieces == 1
+
+    @property
+    def missing_side2_pieces(self):
+        return sum([int(x) for x in self.side2_mask.split(',')])
 
     @property
     def side2_won(self):
-        return sum([int(x) for x in self.side2_mask.split(',')]) == 1
+        return self.missing_side1_pieces == 1
 
     def __str__(self):
         return "GameState {self.id} : Board {self.board.id}".format(self=self)

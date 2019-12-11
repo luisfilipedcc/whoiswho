@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "79b1088b-4b27-46ce-9f48-0d4e548ada88",
+		"_postman_id": "5f081838-360a-4aba-9f24-9eaa913c556b",
 		"name": "whoiswho",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -30,14 +30,10 @@
 							}
 						},
 						"url": {
-							"raw": "192.168.99.100:8000/player/register/",
+							"raw": "{{host}}/player/register/",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"player",
 								"register",
@@ -114,12 +110,12 @@
 			"name": "Match Actions",
 			"item": [
 				{
-					"name": "Join Match",
+					"name": "Match Join",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/match/match/join/2/",
+							"raw": "{{host}}/match/match/join/{{match_id}}/",
 							"host": [
 								"{{host}}"
 							],
@@ -127,7 +123,7 @@
 								"match",
 								"match",
 								"join",
-								"2",
+								"{{match_id}}",
 								""
 							]
 						}
@@ -135,7 +131,7 @@
 					"response": []
 				},
 				{
-					"name": "Play Match",
+					"name": "Match Play",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -148,7 +144,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"picks\": [1,2]}",
+							"raw": "{\"picks\": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20]}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -156,7 +152,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/match/match/play/2/",
+							"raw": "{{host}}/match/match/play/{{match_id}}/",
 							"host": [
 								"{{host}}"
 							],
@@ -164,7 +160,7 @@
 								"match",
 								"match",
 								"play",
-								"2",
+								"{{match_id}}",
 								""
 							]
 						}
@@ -172,12 +168,12 @@
 					"response": []
 				},
 				{
-					"name": "Leave Match",
+					"name": "Match Leave",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/match/match/leave/1/",
+							"raw": "{{host}}/match/match/leave/{{match_id}}/",
 							"host": [
 								"{{host}}"
 							],
@@ -185,7 +181,28 @@
 								"match",
 								"match",
 								"leave",
-								"1",
+								"{{match_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Match Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/match/match/status/{{match_id}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"match",
+								"match",
+								"status",
+								"{{match_id}}",
 								""
 							]
 						}
@@ -223,14 +240,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/match/match/1/",
+							"raw": "{{host}}/match/match/{{match_id}}/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"match",
 								"match",
-								"1",
+								"{{match_id}}",
 								""
 							]
 						}
@@ -243,14 +260,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/match/match/2/",
+							"raw": "{{host}}/match/match/{{match_id}}/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"match",
 								"match",
-								"2",
+								"{{match_id}}",
 								""
 							]
 						}
@@ -288,7 +305,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNTgxMjA0MDg4fQ.b-TEjZgfnu7jSg7bIojRGdFUq4C8p3FFQ-KSGc0mJaQ",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNTgxMjA4NDI1fQ.dsMbtgw8GPzu2fkz66yc6P-iKPdN4ME9jtyvb7Z1670",
 				"type": "string"
 			}
 		]
@@ -317,9 +334,15 @@
 	],
 	"variable": [
 		{
-			"id": "9aa75e58-438a-40ec-a466-91fe0f7db4ae",
+			"id": "c67393b0-ae11-4bcb-8eaf-498baee5b0d2",
 			"key": "host",
 			"value": " 192.168.99.100:8000",
+			"type": "string"
+		},
+		{
+			"id": "9f8fc20b-8a00-478b-9c3d-9028dd2bad68",
+			"key": "match_id",
+			"value": "1",
 			"type": "string"
 		}
 	],
