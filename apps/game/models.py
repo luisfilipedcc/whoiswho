@@ -12,17 +12,36 @@ class Character(models.Model):
 
 
 class Board(models.Model):
-    character1 = models.ForeignKey(Character, on_delete=models.DO_NOTHING, related_name="character1")
-    character2 = models.ForeignKey(Character, on_delete=models.DO_NOTHING, related_name="character2")
-    pieces = models.CharField(validators=[validate_comma_separated_integer_list], max_length=200, default="")
+    character1 = models.ForeignKey(
+        Character, on_delete=models.DO_NOTHING, related_name="character1"
+    )
+    character2 = models.ForeignKey(
+        Character, on_delete=models.DO_NOTHING, related_name="character2"
+    )
+    pieces = models.CharField(
+        validators=[validate_comma_separated_integer_list], max_length=200, default=""
+    )
+
+    @property
+    def character1_index(self):
+        return self.pieces.index(self.character1)
+
+    @property
+    def character2_index(self):
+        return self.pieces.index(self.character2)
 
     @property
     def characters(self):
-        characters = Character.objects.filter(id__in=[int(p) for p in self.pieces.split(',')]).order_by('id')
+        characters = Character.objects.filter(
+            id__in=[int(p) for p in self.pieces.split(",")]
+        ).order_by("id")
         return [model_to_dict(char) for char in characters]
 
     def __str__(self):
-        return "Board {self.id} : Char1 - {self.character1.name} : Char2 - {self.character2.name}".format(self=self)
+        return (
+            "Board {self.id} : Char1 - {self.character1.name} : "
+            "Char2 - {self.character2.name}"
+        ).format(self=self)
 
 
 class Game(models.Model):
@@ -35,8 +54,12 @@ class GameState(models.Model):
     game = models.ForeignKey(Game, on_delete=models.DO_NOTHING)
     side1_turn = models.BooleanField(default=True)
     side2_turn = models.BooleanField(default=False)
-    side1_mask = models.CharField(validators=[validate_comma_separated_integer_list], max_length=200)
-    side2_mask = models.CharField(validators=[validate_comma_separated_integer_list], max_length=200)
+    side1_mask = models.CharField(
+        validators=[validate_comma_separated_integer_list], max_length=200
+    )
+    side2_mask = models.CharField(
+        validators=[validate_comma_separated_integer_list], max_length=200
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
 
     @property
@@ -45,19 +68,25 @@ class GameState(models.Model):
 
     @property
     def missing_side1_pieces(self):
-        return sum([int(x) for x in self.side1_mask.split(',')])
+        return sum([int(x) for x in self.side1_mask.split(",")])
 
     @property
     def side1_won(self):
-        return self.missing_side1_pieces == 1
+        return (
+            self.missing_side1_pieces == 1
+            and self.side1_mask.index("1") == self.game.board.character2_index
+        )
 
     @property
     def missing_side2_pieces(self):
-        return sum([int(x) for x in self.side2_mask.split(',')])
+        return sum([int(x) for x in self.side2_mask.split(",")])
 
     @property
     def side2_won(self):
-        return self.missing_side1_pieces == 1
+        return (
+            self.missing_side1_pieces == 1
+            and self.side2_mask.index("1") == self.game.board.character1_index
+        )
 
     def __str__(self):
         return "GameState {self.id} : Board {self.board.id}".format(self=self)
