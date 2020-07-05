@@ -40,9 +40,12 @@ class GameService:
 
         game = Game.objects.create(board=board, category=category, number_of_pieces=number_of_pieces)
 
+        side1_mask = ','.join(['1' if i != board.character1_index else '0' for i in range(number_of_pieces)])
+        side2_mask = ','.join(['1' if i != board.character2_index else '0' for i in range(number_of_pieces)])
+
         self.game_state = GameState.objects.create(game=game,
-                                                   side1_mask=','.join(['1' for _ in range(number_of_pieces)]),
-                                                   side2_mask=','.join(['1' for _ in range(number_of_pieces)]))
+                                                   side1_mask=side1_mask,
+                                                   side2_mask=side2_mask)
 
     @staticmethod
     def _transform_mask_by_picks(mask, picks):

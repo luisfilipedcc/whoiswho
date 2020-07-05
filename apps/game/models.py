@@ -24,11 +24,11 @@ class Board(models.Model):
 
     @property
     def character1_index(self):
-        return self.pieces.index(self.character1)
+        return self.pieces.split(',').index(str(self.character1.id))
 
     @property
     def character2_index(self):
-        return self.pieces.index(self.character2)
+        return self.pieces.split(',').index(str(self.character2.id))
 
     @property
     def characters(self):
@@ -64,7 +64,7 @@ class GameState(models.Model):
 
     @property
     def last_play(self):
-        return self.side1_won or self.side2_won
+        return self.missing_side1_pieces == 1 or self.missing_side2_pieces == 1
 
     @property
     def missing_side1_pieces(self):
@@ -74,7 +74,7 @@ class GameState(models.Model):
     def side1_won(self):
         return (
             self.missing_side1_pieces == 1
-            and self.side1_mask.index("1") == self.game.board.character2_index
+            and self.side1_mask.split(',').index("1") == self.game.board.character2_index
         )
 
     @property
@@ -84,9 +84,14 @@ class GameState(models.Model):
     @property
     def side2_won(self):
         return (
-            self.missing_side1_pieces == 1
-            and self.side2_mask.index("1") == self.game.board.character1_index
+            self.missing_side2_pieces == 1
+            and self.side2_mask.split(',').index("1") == self.game.board.character1_index
         )
+
+    @property
+    def open_characters(self):
+        characters_ids = Character.objects.filter()
+        return characters_ids
 
     def __str__(self):
         return "GameState {self.id} : Board {self.board.id}".format(self=self)

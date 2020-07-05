@@ -4,3 +4,7 @@ class PlayerInvalidTurn(Exception):
 
 class InvalidPickSelection(Exception):
     pass
+
+
+class InvalidPlayerReference(Exception):
+    pass

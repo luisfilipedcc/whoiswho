@@ -21,12 +21,23 @@ class MatchStatus(View):
     def get(self, request, match_id):
         match_service = MatchService(request.match)
         game_state = match_service.match.game_state
-        your_turn = not(request.is_player1 and game_state.side1_turn or request.is_player2 and game_state.side2_turn)
+        player_turn = not(request.is_player1 and game_state.side1_turn or request.is_player2 and game_state.side2_turn)
         opponent_pieces = game_state.missing_side2_pieces if request.is_player1 else game_state.missing_side1_pieces
+
+        if not match_service.match.ended:
+            opponent_character = None
+        else:
+            if request.is_player1:
+                opponent_character = game_state.game.board.character2.id
+            else:
+                opponent_character = game_state.game.board.character1.id
+
         return JsonResponse({"ready": match_service.match.started,
                              "ended": match_service.match.ended,
-                             "lost": game_state.side2_won if request.is_player1 else game_state.side1_won,
-                             "your_turn": your_turn,
+                             "waiting": match_service.match.waiting,
+                             "win": match_service.match.winner == request.player,
+                             "player_turn": player_turn,
+                             "opponent_character": opponent_character,
                              "opponent_pieces": opponent_pieces})
 
 
@@ -63,8 +74,8 @@ class MatchJoin(View):
             return JsonResponse({"error": 6, "message": "Match does not exist or is not yours."})
         if match.is_full:
             return JsonResponse({"joined": False})
-        match.player2 = request.player
-        match.save()
+        match_service = MatchService(match)
+        match_service.join(request.player)
         return JsonResponse({"joined": True})
 
 
@@ -88,7 +99,7 @@ class MatchCreation(View):
 
     @logged_in
     def post(self, request):
-        waiting_match = Match.objects.filter(player1=request.player, waiting=True).first()
+        waiting_match = Match.objects.filter(player1=request.player, waiting=True, ended=False).first()
         if waiting_match:
             return JsonResponse({"error": 8, "message": "You already have an ongoing match. Not creating a new one."})
         match_name = uuid.uuid4().hex[:6].upper()
@@ -106,19 +117,26 @@ class MatchCrud(View):
     @logged_in
     @active_turn
     def get(self, request, match_id):
-        if request.match.waiting:
-            return JsonResponse({"match": model_to_dict(request.match), "game": None, "board": None})
-        board = model_to_dict(request.match.game_state.game.board)
+        player1 = model_to_dict(request.match.player1, ["id", "username"])
+        players = dict(player1=player1, player2=None)
+        if not request.match.waiting:
+            players.update({"player2": model_to_dict(request.match.player2, ["id", "username"])})
+        board = request.match.game_state.game.board
+        board_dict = model_to_dict(board)
         if request.is_player1:
-            del board['character2']
+            del board_dict['character2']
         if request.is_player2:
-            del board['character1']
-        del board['pieces']
-        board['characters'] = request.match.game_state.game.board.characters
+            del board_dict['character1']
+        del board_dict['pieces']
+        board_dict['characters'] = board.characters
+        board_dict['player_index'] = 1 if request.is_player1 else 2
+        match_service = MatchService(request.match)
+        board_dict['mask'] = match_service.get_restore_mask(request.is_player1, request.is_player2)
         return JsonResponse({
             "match": model_to_dict(request.match),
             "game": model_to_dict(request.match.game_state.game),
-            "board": board})
+            "board": board_dict,
+            "players": players})
 
     @logged_in
     def delete(self, request, match_id):

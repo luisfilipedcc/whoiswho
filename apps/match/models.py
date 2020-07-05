@@ -10,6 +10,7 @@ class Match(models.Model):
     waiting = models.BooleanField(default=True)
     started = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
+    winner = models.ForeignKey(Player, on_delete=models.DO_NOTHING, related_name="winner", null=True)
     game_state = models.ForeignKey(GameState, on_delete=models.DO_NOTHING, null=True)
 
     @property

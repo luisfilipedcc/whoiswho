@@ -5,7 +5,7 @@ from django.http.response import JsonResponse
 
 from django.contrib.auth import authenticate
 
-from apps.user.exceptions import AuthenticationFailed
+from django.db import IntegrityError
 from apps.user.models import Player
 
 
@@ -42,5 +42,9 @@ class Register(View):
         except KeyError:
             return JsonResponse({'error': 102, "message": "Please provide an username, email and password"}, status=400)
 
-        player = Player.objects.create_user(username=username, email=email, password=password)
+        try:
+            player = Player.objects.create_user(username=username, email=email, password=password)
+        except IntegrityError:
+            return JsonResponse({'error': 103, "message": "Email or username already registered"}, status=400)
+
         return JsonResponse({'player_id': player.id})

@@ -9,6 +9,6 @@ from django.forms import model_to_dict
 class Lobby(View):
 
     @logged_in
-    def get(self, _):
-        ongoing_matches = Match.objects.filter(ended=False)
+    def get(self, request):
+        ongoing_matches = Match.objects.filter(ended=False, player2=None)
         return JsonResponse({"matches": [model_to_dict(match) for match in ongoing_matches]})
