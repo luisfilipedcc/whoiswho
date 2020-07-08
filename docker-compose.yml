@@ -1,11 +1,17 @@
-version: "3"
+version: "3.7"
 
 services:
-  web:
+  whoiswho-backend:
     build: .
+    container_name: whoiswho-backend
     tty: true
-    command: bash -c "python manage.py migrate && python manage.py loaddata fixtures/character.json && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate && python manage.py loaddata fixtures/character.json && python manage.py runserver 0.0.0.0:80"
+    networks: [whoiswho-network]
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
+    expose:
+      - "80"
+networks:
+  whoiswho-network:
+    driver: bridge
+    name: whoiswho-network
